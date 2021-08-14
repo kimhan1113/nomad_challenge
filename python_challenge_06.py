@@ -3,8 +3,6 @@ import requests
 from bs4 import BeautifulSoup as bf
 from babel.numbers import format_currency
 
-os.system("clear")
-
 """
 Use the 'format_currency' function to format the output of the conversion
 format_currency(AMOUNT, CURRENCY_CODE, locale="ko_KR" (no need to change this one))
