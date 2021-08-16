@@ -28,7 +28,6 @@ def get_url_name(url):
 
         # do not sort both list cuz they were appended different list
 
-
         # get urls
         href_result = res.find('ul', class_ = 'goodsBox').find_all("a", class_ = 'goodsBox-info', href=True)
 
@@ -98,16 +97,24 @@ if __name__ == "__main__":
 
     links = get_url_name(alba_url)
 
+    
+
     for j, link in enumerate(tqdm(links)):
+
         total_page = get_total_page(link)
 
-        link_total = []        
-        for i in range(total_page+1):           
-            crawling_data(link + f'job/brand/?page={i+1}&pagesize=50')
+        try:
+
+            link_total = []        
+            for i in range(total_page+1):           
+                crawling_data(link + f'job/brand/?page={i+1}&pagesize=50')
+                
+            df = pd.DataFrame(link_total)
+            df.columns=["place", "title", "time", "pay", "date"]
             
-        df = pd.DataFrame(link_total)
-        df.columns=["place", "title", "time", "pay", "date"]
-        
-        # remove specific chars
-        file_name = re.sub("\&amp;","", company_list[j])
-        df.to_csv(file_name+'.csv', index=False)
+            # remove specific chars
+            file_name = re.sub("\&amp;","", company_list[j])
+            df.to_csv(file_name+'.csv', index=False)
+            
+        except:
+            continue
