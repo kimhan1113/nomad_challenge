@@ -51,8 +51,6 @@ def get_url_name(url):
 def crawling_data(url):
 
 
-    # for i, url in enumerate(list_urls):
-
     indeed_result = requests.get(url)
 
     indeed_soup = bfs(indeed_result.text, 'html.parser')
@@ -112,21 +110,4 @@ if __name__ == "__main__":
         
         # remove specific chars
         file_name = re.sub("\&amp;","", company_list[j])
-        df.to_csv(file_name, index=False)
-        # print(f'{file_name} is saved')
- 
-        # try:
-        #     df = pd.DataFrame(link_total)
-        #     df.columns=["place", "title", "time", "pay", "date"]
-            
-        #     # remove specific chars
-        #     file_name = re.sub("\&amp;","", company_list[j])
-        #     df.to_csv(company_list[j], index=False)
-        #     print(f'{file_name} is saved')
-        # except:
-        #     print('pass')
-        #     continue
-
-
-    # crawling_data('http://norangtongdak.alba.co.kr/job/brand/')
-    # print(get_total_page('http://eduhansol.alba.co.kr/job/brand/?page=3&pagesize=50'))
+        df.to_csv(file_name+'.csv', index=False)
