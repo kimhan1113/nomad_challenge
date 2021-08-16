@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup as bfs
 import bs4
 import re
 import pandas as pd
+from tqdm import tqdm
 
 os.system("clear")
 alba_url = "http://www.alba.co.kr"
@@ -70,6 +71,7 @@ def crawling_data(url):
             regtime = table_row.find('td',class_='regDate last')
 
             try:
+                # locale = re.sub("\?"," ", locale)
                 com = company.find('span', class_='company')
                 link_total.append([locale.text, com.text, work_time.text, salary.text, regtime.text])
                 
@@ -98,20 +100,33 @@ if __name__ == "__main__":
 
     links = get_url_name(alba_url)
 
-    # company_list
-
-    for j, link in enumerate(links):
+    for j, link in enumerate(tqdm(links)):
         total_page = get_total_page(link)
+
         link_total = []        
         for i in range(total_page+1):           
             crawling_data(link + f'job/brand/?page={i+1}&pagesize=50')
- 
-        try:
-            df = pd.DataFrame(link_total)
-            df.columns=["place", "title", "time", "pay", "date"]
             
-            # remove specific chars
-            file_name = re.sub("\&amp;","", company_list[j])
-            df.to_csv(file_name + '.csv', index=False)
-        except:
-            continue
+        df = pd.DataFrame(link_total)
+        df.columns=["place", "title", "time", "pay", "date"]
+        
+        # remove specific chars
+        file_name = re.sub("\&amp;","", company_list[j])
+        df.to_csv(file_name, index=False)
+        # print(f'{file_name} is saved')
+ 
+        # try:
+        #     df = pd.DataFrame(link_total)
+        #     df.columns=["place", "title", "time", "pay", "date"]
+            
+        #     # remove specific chars
+        #     file_name = re.sub("\&amp;","", company_list[j])
+        #     df.to_csv(company_list[j], index=False)
+        #     print(f'{file_name} is saved')
+        # except:
+        #     print('pass')
+        #     continue
+
+
+    # crawling_data('http://norangtongdak.alba.co.kr/job/brand/')
+    # print(get_total_page('http://eduhansol.alba.co.kr/job/brand/?page=3&pagesize=50'))
