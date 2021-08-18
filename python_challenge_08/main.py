@@ -44,7 +44,7 @@ def get_stories(arg):
         db['new'] = temp_list
         global flag_new
         flag_new = False
-    #     flag_new = 1
+
     return temp_list
 
 @app.route("/")
@@ -52,51 +52,36 @@ def get_stories(arg):
 def home():
     order = request.args.get("order_by")
     global flag_popular
-
-    print('home in')
-    print(order)
+    global flag_new
     
+    # 처음 서버실행하면 데이터를 긁어온다 
     if (flag_popular):
         data = get_stories(popular)
-
+        # false로 해줘서 또 요청할 시 db에서 데이터를 가져오도록 한다.
+        flag_popular = False
     else:
         data = db["popular"]
-
     
+    # html 템플릿에서 order로 보여지는 화면 판단 할 수있도록 한다.
     if ((order == 'popular') or (order == None)):
         return render_template("index.html", data=data, order="popular")
 
+    # popular가 아니면 
     else:
-        try:
-            data_new = db['new']
-        except:
+
+        # popular와 동일한 방식으로 flag로 구분해서 처음들어오면 데이터를 긁어오고
+        # flag를 false해준다. 즉 다음에 들어올 때는 db에 있는 데이터를 가지고 온다.
+        if(flag_new):
             data_new = get_stories(new)
+            flag_new = False
+            
+        else:
+            data_new = db['new']       
+
         return render_template("index.html", data=data_new, order="new",)
 
     
     # return render_template("index.html")
-
-
-# @app.route("/?order_by=new")
-# def new_url():
-#     order = request.args.get("order_by")
-
-#     global flag_new
-
-#     print('new in')
-
-#     if (flag_new):
-#         data = get_stories(new)
-
-#     else:
-#         data = db["new"]
-
-#     if ((order == 'popular') or (order == None)):
-#         # 어차피 첫페이지는 popular라서 무조건 db에 들어가니깐 다시 불러올때는 db에서 불러올수있다.       
-#         data = db["popular"]
-#         return render_template("index.html", data=data, order='popular')
-#     else:
-#         return render_template("index.html", data=data, order="new",)
 
 
 def get_id_data(id_):
