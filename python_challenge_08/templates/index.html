@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href="https://andybrewer.github.io/mvp/mvp.css" rel="stylesheet"></link>
+    <div style= "text-align:center;">
+            <h1>Nomad News</h1>
+            <span>Order by:</span>
+
+            {% if (order == 'popular') or (order == none) %}
+                <strong>Popular</string>
+                <span>|</span>
+
+                <!-- 변수명이랑 함수명이라 겹처서 안됬었다 -->
+                <a href={{new_url}} ?order_by=new>New</a>
+
+            {% else %}            
+                <a href={{home}} ?order_by=popular>Popular</a>
+                <span>|</span>
+                <strong>New</strong>
+
+            {% endif %}
+      
+    </div>
+</head>
+
+<body>
+
+    <div>
+
+        {% for i in data %}
+            </br>
+            <div style="text-align:center";>
+                <a href={{i.id}}>({{i.title}})</a>          
+                <a href={{i.url}}>{{i.url}}</a>
+                </br>
+                {{i.points}} Points |
+                By: {{i.author}} |
+                {{i.num_comments}} comments
+                <hr>
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+  
+</body>
+
+</html>

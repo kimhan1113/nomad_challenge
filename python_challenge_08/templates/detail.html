@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href="https://andybrewer.github.io/mvp/mvp.css" rel="stylesheet"></link>
+    <div style= "text-align:center;">
+            </br>
+            <h1>{{data[0].title}}</h1>
+            </br>
+            <span>{{data[0].points}} Points</span>
+            <span>|</span>
+            <span>By {{data[0].title_author}}</span>
+            <span>|</span>
+            <a href={{data[0].url}}>{{data[0].url}}</a>      
+
+    </div>
+
+</head>
+
+<body>
+    <div>
+        
+        {% for i in data %}
+            {% autoescape false %}
+
+                <!-- remove none author -->
+                {% if not i.author is none %}
+                    <div style="text-align:center";>
+                    </br>
+                    
+                        <p>
+                            <strong>
+                                {{i.author}}:
+                            </strong>
+                        </p>  
+                        </br>        
+                        {{i.text}}
+                        </br>
+                        <hr>
+                    </div>
+
+                {% endif %}
+
+            {% endautoescape %}
+
+        {% endfor %}
+
+    </div>
+</body>
+
+</html>
