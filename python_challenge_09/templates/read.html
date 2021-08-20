@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href="https://andybrewer.github.io/mvp/mvp.css" rel="stylesheet"></link>
+</head>
+
+<body>
+    <header>
+        <h1><a href="/">Reddit Reader</a></h1>
+        <!-- <a href="/">Reddit Reader</a> -->
+        </br>
+
+        <strong>Reading: </strong>
+        <strong>
+            {% for i in language_list %}
+                r/{{i}} &nbsp
+            {% endfor %}
+                
+        </strong>
+    </header>
+    <main>
+
+        {% for i in data %}
+            <a href="https://www.reddit.com/{{i[2]}}">{{i[0]}}</a>
+            </br>
+            <strong>{{i[1]}} upvotes</strong>
+            <strong> · </strong>
+            <strong>{{i[3]}}</strong>
+            <hr>
+        {% endfor %}
+
+    </main>
+</body>
+
+</html>
