@@ -109,10 +109,6 @@ def read():
                 
         else:
             continue
-
-    print(len(title_list))
-    print(len(clean_vote))
-    print(len(url_list))
         
     # data_list vote 순으로 정렬해야함.
     data_list.sort(key=lambda x:x[1], reverse=True)
